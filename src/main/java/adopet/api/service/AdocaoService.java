@@ -1,6 +1,9 @@
 package adopet.api.service;
 
-import adopet.api.dto.*;
+import adopet.api.dto.AdocaoDTO;
+import adopet.api.dto.AprovarAdocaoDTO;
+import adopet.api.dto.ReprovarAdocaoDTO;
+import adopet.api.dto.SolicitacaoDeAdocaoDTO;
 import adopet.api.model.Adocao;
 import adopet.api.model.Pet;
 import adopet.api.model.StatusAdocao;
@@ -8,7 +11,6 @@ import adopet.api.model.Tutor;
 import adopet.api.repository.AdocaoRepository;
 import adopet.api.repository.PetRepository;
 import adopet.api.repository.TutorRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +40,23 @@ public class AdocaoService {
     public void solicitar(SolicitacaoDeAdocaoDTO dto){
         Pet pet = petRepository.getReferenceById(dto.idPet());
         Tutor tutor = tutorRepository.getReferenceById(dto.idTutor());
+
+        if (pet.getAdotado()){
+
+        }
+
+        Boolean petAdocaoEmAndamento = adocaoRepository.existsByPetIdAndStatus(dto.idPet(), StatusAdocao.AGUARDANDO_AVALIACAO());
+
+        if (petAdocaoEmAndamento){
+            
+        }
+
+        Integer tutorAdocoes = adocaoRepository.countByTutorIdAndStatus(dto.idTutor(), StatusAdocao.APROVADO);
+
+        if (tutorAdocoes ==2 ){
+
+         }
+
 
         adocaoRepository.save(new Adocao(tutor,pet, dto.motivo()));
     }
